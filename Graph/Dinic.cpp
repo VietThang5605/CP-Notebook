@@ -1,9 +1,3 @@
-struct FlowEdge {
-  int u, v;
-  long long cap = 0, flow = 0;
-  FlowEdge(int u, int v, long long cap) : u(u), v(v), cap(cap) {}
-};
-
 struct Dinic {
   const long long flow_inf = 1e18;
   vector<FlowEdge> edges;
@@ -12,10 +6,8 @@ struct Dinic {
   int n, m = 0, s, t;
 
   Dinic() {}
-  Dinic(int _n, int _s, int _t) {
+  Dinic(int _n) {
     n = _n;
-    s = _s;
-    t = _t;
     adj.resize(n + 3);
     ptr.resize(n + 3);
     level.resize(n + 3);
@@ -53,7 +45,7 @@ struct Dinic {
     if (u == t) return pushed;
     for (int &cur = ptr[u]; cur < sz(adj[u]); cur++) {
       int id = adj[u][cur], v = edges[id].v;
-      if (level[u] + 1 != level[v] || edges[id].cap - edges[id].flow < 1)
+      if (level[u] + 1 != level[v] | edges[id].cap - edges[id].flow < 1)
         continue;
       long long tr = dfs(v, min(pushed, edges[id].cap - edges[id].flow));
       if (tr == 0) continue;
@@ -64,7 +56,9 @@ struct Dinic {
     return 0;
   }
 
-  long long maxFlow() {
+  long long maxFlow(int _s, int _t) {
+    s = _s; t = _t;
+    for (FlowEdge &e : edges) e.flow = 0;
     long long res = 0;
     while (bfs()) {
       for (int i = 1; i <= n; i++) ptr[i] = 0;
