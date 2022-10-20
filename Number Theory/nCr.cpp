@@ -11,7 +11,7 @@ void Init(int x) {
   }
 }
 
-int nCk(int x, int y) {
+int C(int x, int y) {
   if (y > x) return 0;
   return 1ll * fact[x] * finv[y] % Mod * finv[x - y] % Mod;
 }
