@@ -5,7 +5,7 @@ struct DSU {
   int Root(int x) {
     return p[x] < 0 ? x : p[x] = Root(p[x]);
   }
-
+  
   bool Merge(int u, int v) {
     u = Root(u); v = Root(v);
     if (u == v) return 0;
@@ -14,8 +14,12 @@ struct DSU {
     p[v] = u;
     return 1;
   }
+  
+  int Size(int u) {
+    return -p[Root(u)];
+  }
 
   bool Same(int u, int v) {
-    return (Root(u) == Root(v));
+    return Root(u) == Root(v);
   }
 };
