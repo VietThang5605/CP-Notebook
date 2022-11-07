@@ -1,3 +1,9 @@
+struct FlowEdge {
+  int u, v;
+  long long cap = 0, flow = 0;
+  FlowEdge(int u, int v, long long cap) : u(u), v(v), cap(cap) {}
+};
+
 struct Dinic {
   const long long flow_inf = 1e18;
   vector<FlowEdge> edges;
@@ -45,7 +51,7 @@ struct Dinic {
     if (u == t) return pushed;
     for (int &cur = ptr[u]; cur < sz(adj[u]); cur++) {
       int id = adj[u][cur], v = edges[id].v;
-      if (level[u] + 1 != level[v] | edges[id].cap - edges[id].flow < 1)
+      if (level[u] + 1 != level[v] || edges[id].cap - edges[id].flow < 1)
         continue;
       long long tr = dfs(v, min(pushed, edges[id].cap - edges[id].flow));
       if (tr == 0) continue;
